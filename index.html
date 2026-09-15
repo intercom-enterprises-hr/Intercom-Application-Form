@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Intercom Enterprises - Job Application Form</title>
+<style>
+:root {
+  --blue:#0057B8;
+  --blue-dark:#003F87;
+  --red:#ED1C24;
+  --orange:#F5A623;
+  --charcoal:#3A3A3C;
+  --ink:#23272d;
+  --muted:#707782;
+  --line:#e5e8ec;
+  --soft:#f6f8fb;
+  --white:#fff;
+  --shadow:0 12px 28px rgba(27,38,49,.07);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:linear-gradient(180deg,#f7f9fc 0,#f3f5f8 100%);
+  color:var(--ink);
+  font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+}
+.page{width:min(1160px,calc(100% - 32px));margin:30px auto 54px}
+.hero{
+  position:relative;overflow:hidden;background:#fff;border:1px solid var(--line);
+  border-radius:22px;box-shadow:var(--shadow);padding:26px 28px;margin-bottom:18px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px
+}
+.hero:after{
+  content:"";position:absolute;right:-54px;top:-62px;width:190px;height:190px;border-radius:50%;
+  border:25px solid rgba(245,166,35,.18);
+  box-shadow:-35px 38px 0 -12px rgba(237,28,36,.15),-6px 74px 0 -17px rgba(0,87,184,.16);
+  pointer-events:none
+}
+.brand{display:flex;align-items:center;gap:22px;z-index:1}
+.logo{width:230px;max-width:38vw}
+.logo img{display:block;width:100%;height:auto}
+.hero h1{margin:0;color:var(--charcoal);font-size:clamp(24px,3vw,34px);letter-spacing:-.03em}
+.hero p{margin:5px 0 0;color:var(--muted);font-size:14px}
+.badge{z-index:1;border:1px solid #dce8f6;background:#f3f8fe;color:var(--blue-dark);font-weight:800;
+  font-size:13px;padding:9px 13px;border-radius:999px;white-space:nowrap}
+
+.application-shell{display:grid;gap:14px}
+.accordion{
+  background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 20px rgba(27,38,49,.045);overflow:hidden
+}
+.accordion-toggle{
+  width:100%;border:0;background:#fff;color:var(--charcoal);cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;text-align:left;
+  padding:20px 22px;font:inherit;font-weight:850;font-size:17px;
+  list-style:none
+}
+.accordion-toggle::-webkit-details-marker{display:none}
+.accordion-toggle:hover{background:#fbfcfe}
+.accordion-toggle .title-wrap{display:flex;align-items:center;gap:12px}
+.dot{width:10px;height:10px;border-radius:999px;background:var(--blue);box-shadow:0 0 0 5px rgba(0,87,184,.08)}
+.accordion:nth-of-type(2) .dot{background:var(--red);box-shadow:0 0 0 5px rgba(237,28,36,.08)}
+.accordion:nth-of-type(3) .dot{background:var(--orange);box-shadow:0 0 0 5px rgba(245,166,35,.10)}
+.accordion:nth-of-type(4) .dot{background:var(--blue)}
+.accordion:nth-of-type(5) .dot{background:var(--red)}
+.chev{font-size:20px;color:var(--muted);transition:.2s ease}
+.accordion[open] .chev{transform:rotate(180deg)}
+.accordion-body{border-top:1px solid var(--line);padding:22px}
+
+
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}
+.field{grid-column:span 6;min-width:0}
+.field.third{grid-column:span 4}
+.field.full{grid-column:1/-1}
+label,.label{display:block;font-size:13px;font-weight:760;margin-bottom:7px;color:#343a40}
+input,select,textarea{
+  width:100%;border:1px solid #d8dde4;border-radius:11px;padding:11px 12px;background:#fff;color:var(--ink);
+  outline:none;font:inherit;transition:.18s ease
+}
+textarea{min-height:84px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(0,87,184,.12)}
+label.required::after,.label.required::after,label.mandatory-label::after,.label.mandatory-label::after{content:" *";color:var(--red)}
+
+.choices{display:flex;flex-wrap:wrap;gap:9px}
+.choice{position:relative}
+.choice input{position:absolute;opacity:0;pointer-events:none}
+.choice span{
+  display:inline-flex;align-items:center;justify-content:center;min-height:39px;padding:9px 13px;
+  border:1px solid #d8dde4;border-radius:10px;background:#fff;cursor:pointer;font-size:13px;font-weight:650
+}
+.choice input:checked + span{border-color:var(--blue);background:#eef5fc;color:var(--blue-dark)}
+
+.subcard{background:var(--soft);border:1px solid var(--line);border-radius:15px;padding:17px;margin-top:14px}
+.subcard:first-child{margin-top:0}
+.subcard-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.subcard-head h3{margin:0;font-size:14px;color:var(--charcoal)}
+.subtle{font-size:12px;color:var(--muted)}
+
+.add-btn,.remove-btn,.primary,.secondary{
+  border:0;border-radius:11px;padding:11px 16px;font:inherit;font-weight:800;cursor:pointer
+}
+.add-btn{background:#eef5fc;color:var(--blue-dark);border:1px solid #dce8f6;margin-top:14px}
+.add-btn:hover{background:#e6f0fb}
+.remove-btn{background:#fff1f1;color:#b32424;border:1px solid #f2d1d1;padding:8px 12px;font-size:12px}
+.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:4px}
+.secondary{background:#e9edf2;color:#343a40}
+.primary{background:var(--blue);color:#fff;box-shadow:0 8px 18px rgba(0,87,184,.22)}
+.primary:hover{background:var(--blue-dark)}
+
+.table-like{display:grid;gap:10px}
+.ref-row{display:grid;grid-template-columns:1.2fr 1.2fr 1fr 1fr;gap:10px}
+.ref-head{font-size:12px;font-weight:800;color:var(--muted);padding:0 2px}
+.declaration{margin-top:16px;padding:16px;border:1px solid #e1e8f1;background:#fafcfe;border-radius:14px;font-size:13px}
+.declaration label{display:flex;gap:10px;align-items:flex-start;margin:0;font-weight:600}
+.declaration input{width:18px;height:18px;flex:0 0 auto;margin-top:1px}
+.status{display:none;margin-top:12px;padding:12px 14px;border-radius:10px;font-size:13px;font-weight:700}
+.status.show{display:block}
+.status.ok{background:#eef8f1;color:#206b39;border:1px solid #cfe9d7}
+.status.warn{background:#fff8e8;color:#7b5b13;border:1px solid #f0dfae}
+
+@media(max-width:840px){
+  .hero{align-items:flex-start;flex-direction:column} .badge{white-space:normal}
+  .field,.field.third{grid-column:1/-1} .ref-row{grid-template-columns:1fr} .ref-head{display:none}
+  .accordion-toggle{padding:18px}
+}
+
+.required-note{
+  margin:0 2px 2px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.status.ok{white-space:pre-line}
+.ref-field{min-width:0}
+.current-employer{display:flex;align-items:center;gap:9px;margin:0}
+.current-employer input{width:18px;height:18px;margin:0}
+.submission-dialog{width:min(520px,calc(100% - 32px));border:1px solid var(--line);border-radius:20px;padding:30px;background:#fff;color:var(--ink);box-shadow:0 20px 70px rgba(0,0,0,.2);text-align:center}
+.submission-dialog::backdrop{background:rgba(20,32,48,.48)}
+.submission-dialog p{margin:0 0 9px;line-height:1.6;font-weight:700}
+.submission-dialog.is-success{background:var(--blue);border-color:var(--blue);color:#fff}
+.submission-dialog .success-copy{color:inherit}
+.submission-dialog .success-copy p:first-child{font-size:23px;line-height:1.35;margin-bottom:16px}
+.submission-dialog .success-copy p:last-child{font-size:13px;font-weight:600;margin-top:18px}
+.submission-dialog.is-success button{background:#fff;color:var(--blue);box-shadow:none}
+.submission-dialog.is-success button:hover{background:#eef5fc}
+.submission-dialog button{margin-top:18px}
+.submission-spinner{width:38px;height:38px;margin:0 auto 18px;border:4px solid #dce8f6;border-top-color:var(--blue);border-radius:50%;animation:submission-spin .8s linear infinite}
+@keyframes submission-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.submission-spinner{animation:none}}
+
+
+.conditional-field {
+  display: none;
+}
+.conditional-field.show {
+  display: block;
+}
+
+</style>
+</head>
+<body>
+<div class="page">
+<header class="hero">
+  <div class="brand">
+    <div class="logo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA/QAAADkCAYAAAA2G29kAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDIxIDc5LjE1NTc3MiwgMjAxNC8wMS8xMy0xOTo0NDowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTQgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjUwNkFGNjJGMEM4QTExRTc4QkU0QjdCMzEzN0RBQ0ZGIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjUwNkFGNjMwMEM4QTExRTc4QkU0QjdCMzEzN0RBQ0ZGIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NTA2QUY2MkQwQzhBMTFFNzhCRTRCN0IzMTM3REFDRkYiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NTA2QUY2MkUwQzhBMTFFNzhCRTRCN0IzMTM3REFDRkYiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5+Abo3AAA0dklEQVR42uzd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" alt="Intercom Enterprises" /></div>
+    
+  </div>
+  <div class="badge">Intercom Enterprises · Application Form</div>
+</header>
+
+<form id="applicationForm" class="application-shell">
+  <p class="required-note">* All fields are mandatory unless marked Optional.</p>
+
+  <details class="accordion" open><summary class="accordion-toggle"><span class="title-wrap"><span class="dot"></span>Application Details</span><span class="chev">⌄</span></summary><div class="accordion-body">
+      <div class="grid">
+        <div class="field"><label class="required">Position Applying for</label><input name="position" required /></div>
+        <div class="field"><label class="required">Date</label><input type="date" id="date" name="date" value="2026-09-14" readonly required /></div>
+        <div class="field full"><label class="required">How did you hear about Intercom?</label>
+          <select id="sourceChoice" name="source" required><option value="">Select an option</option><option>LinkedIn</option><option>Company Website</option>
+          <option>Career Fair</option><option>Employee Referral</option><option>University</option><option>Social Media</option><option>Other</option></select>
+        </div>
+        <div class="field full conditional-field" id="source_other_wrap"><label for="source_other">Other source — please specify</label><input id="source_other" name="source_other" disabled></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="accordion"><summary class="accordion-toggle"><span class="title-wrap"><span class="dot"></span>Personal Details</span><span class="chev">⌄</span></summary><div class="accordion-body">
+      <div class="grid">
+        <div class="field"><label class="required">Full Name</label><input name="full_name" required /></div>
+        <div class="field"><span class="label mandatory-label">Gender</span><div class="choices">
+          <label class="choice"><input type="radio" name="gender" value="Male" required><span>Male</span></label>
+          <label class="choice"><input type="radio" name="gender" value="Female" required><span>Female</span></label>
+        </div></div>
+        <div class="field full"><label class="required">Address</label><input name="address" required /></div>
+        <div class="field third"><label class="required">Date of Birth</label><input type="date" name="dob" required /></div>
+        <div class="field third">
+  <label class="required">Nationality</label>
+  <input name="nationality" list="nationalityList" autocomplete="off" placeholder="Type to search nationality" required />
+  <datalist id="nationalityList">
+    <option value="Afghan"></option>
+<option value="Albanian"></option>
+<option value="Algerian"></option>
+<option value="American"></option>
+<option value="Andorran"></option>
+<option value="Angolan"></option>
+<option value="Antiguan and Barbudan"></option>
+<option value="Argentine"></option>
+<option value="Armenian"></option>
+<option value="Australian"></option>
+<option value="Austrian"></option>
+<option value="Azerbaijani"></option>
+<option value="Bahamian"></option>
+<option value="Bahraini"></option>
+<option value="Bangladeshi"></option>
+<option value="Barbadian"></option>
+<option value="Belarusian"></option>
+<option value="Belgian"></option>
+<option value="Belizean"></option>
+<option value="Beninese"></option>
+<option value="Bhutanese"></option>
+<option value="Bolivian"></option>
+<option value="Bosnian and Herzegovinian"></option>
+<option value="Botswanan"></option>
+<option value="Brazilian"></option>
+<option value="Bruneian"></option>
+<option value="Bulgarian"></option>
+<option value="Burkinabé"></option>
+<option value="Burundian"></option>
+<option value="Cabo Verdean"></option>
+<option value="Cambodian"></option>
+<option value="Cameroonian"></option>
+<option value="Canadian"></option>
+<option value="Central African"></option>
+<option value="Chadian"></option>
+<option value="Chilean"></option>
+<option value="Chinese"></option>
+<option value="Colombian"></option>
+<option value="Comorian"></option>
+<option value="Congolese (Democratic Republic of the Congo)"></option>
+<option value="Congolese (Republic of the Congo)"></option>
+<option value="Costa Rican"></option>
+<option value="Croatian"></option>
+<option value="Cuban"></option>
+<option value="Cypriot"></option>
+<option value="Czech"></option>
+<option value="Danish"></option>
+<option value="Djiboutian"></option>
+<option value="Dominican"></option>
+<option value="Dominican (Dominican Republic)"></option>
+<option value="Dutch"></option>
+<option value="Ecuadorian"></option>
+<option value="Egyptian"></option>
+<option value="Emirati"></option>
+<option value="Equatorial Guinean"></option>
+<option value="Eritrean"></option>
+<option value="Estonian"></option>
+<option value="Eswatini"></option>
+<option value="Ethiopian"></option>
+<option value="Fijian"></option>
+<option value="Filipino"></option>
+<option value="Finnish"></option>
+<option value="French"></option>
+<option value="Gabonese"></option>
+<option value="Gambian"></option>
+<option value="Georgian"></option>
+<option value="German"></option>
+<option value="Ghanaian"></option>
+<option value="Greek"></option>
+<option value="Grenadian"></option>
+<option value="Guatemalan"></option>
+<option value="Guinean"></option>
+<option value="Bissau-Guinean"></option>
+<option value="Guyanese"></option>
+<option value="Haitian"></option>
+<option value="Honduran"></option>
+<option value="Hungarian"></option>
+<option value="Icelandic"></option>
+<option value="Indian"></option>
+<option value="Indonesian"></option>
+<option value="Iranian"></option>
+<option value="Iraqi"></option>
+<option value="Irish"></option>
+<option value="Israeli"></option>
+<option value="Italian"></option>
+<option value="Ivorian"></option>
+<option value="Jamaican"></option>
+<option value="Japanese"></option>
+<option value="Jordanian"></option>
+<option value="Kazakh"></option>
+<option value="Kenyan"></option>
+<option value="Kiribati"></option>
+<option value="Kuwaiti"></option>
+<option value="Kyrgyz"></option>
+<option value="Lao"></option>
+<option value="Latvian"></option>
+<option value="Lebanese"></option>
+<option value="Basotho"></option>
+<option value="Liberian"></option>
+<option value="Libyan"></option>
+<option value="Liechtensteiner"></option>
+<option value="Lithuanian"></option>
+<option value="Luxembourgish"></option>
+<option value="Malagasy"></option>
+<option value="Malawian"></option>
+<option value="Malaysian"></option>
+<option value="Maldivian"></option>
+<option value="Malian"></option>
+<option value="Maltese"></option>
+<option value="Marshallese"></option>
+<option value="Mauritanian"></option>
+<option value="Mauritian"></option>
+<option value="Mexican"></option>
+<option value="Micronesian"></option>
+<option value="Moldovan"></option>
+<option value="Monégasque"></option>
+<option value="Mongolian"></option>
+<option value="Montenegrin"></option>
+<option value="Moroccan"></option>
+<option value="Mozambican"></option>
+<option value="Myanma/Burmese"></option>
+<option value="Namibian"></option>
+<option value="Nauruan"></option>
+<option value="Nepalese"></option>
+<option value="New Zealander"></option>
+<option value="Nicaraguan"></option>
+<option value="Nigerien"></option>
+<option value="Nigerian"></option>
+<option value="North Korean"></option>
+<option value="North Macedonian"></option>
+<option value="Norwegian"></option>
+<option value="Omani"></option>
+<option value="Pakistani"></option>
+<option value="Palauan"></option>
+<option value="Palestinian"></option>
+<option value="Panamanian"></option>
+<option value="Papua New Guinean"></option>
+<option value="Paraguayan"></option>
+<option value="Peruvian"></option>
+<option value="Polish"></option>
+<option value="Portuguese"></option>
+<option value="Qatari"></option>
+<option value="Romanian"></option>
+<option value="Russian"></option>
+<option value="Rwandan"></option>
+<option value="Kittitian and Nevisian"></option>
+<option value="Saint Lucian"></option>
+<option value="Saint Vincentian"></option>
+<option value="Samoan"></option>
+<option value="San Marinese"></option>
+<option value="São Toméan"></option>
+<option value="Saudi"></option>
+<option value="Senegalese"></option>
+<option value="Serbian"></option>
+<option value="Seychellois"></option>
+<option value="Sierra Leonean"></option>
+<option value="Singaporean"></option>
+<option value="Slovak"></option>
+<option value="Slovenian"></option>
+<option value="Solomon Islander"></option>
+<option value="Somali"></option>
+<option value="South African"></option>
+<option value="South Korean"></option>
+<option value="South Sudanese"></option>
+<option value="Spanish"></option>
+<option value="Sri Lankan"></option>
+<option value="Sudanese"></option>
+<option value="Surinamese"></option>
+<option value="Swedish"></option>
+<option value="Swiss"></option>
+<option value="Syrian"></option>
+<option value="Taiwanese"></option>
+<option value="Tajik"></option>
+<option value="Tanzanian"></option>
+<option value="Thai"></option>
+<option value="Timorese"></option>
+<option value="Togolese"></option>
+<option value="Tongan"></option>
+<option value="Trinidadian and Tobagonian"></option>
+<option value="Tunisian"></option>
+<option value="Turkish"></option>
+<option value="Turkmen"></option>
+<option value="Tuvaluan"></option>
+<option value="Ugandan"></option>
+<option value="Ukrainian"></option>
+<option value="Uruguayan"></option>
+<option value="Uzbek"></option>
+<option value="Vanuatuan"></option>
+<option value="Vatican"></option>
+<option value="Venezuelan"></option>
+<option value="Vietnamese"></option>
+<option value="Yemeni"></option>
+<option value="Zambian"></option>
+<option value="Zimbabwean"></option>
+  </datalist>
+</div>
+        <div class="field third"><label class="required">Mobile No.</label><input type="tel" name="mobile" required /></div>
+        <div class="field full"><label class="required">E-mail Address</label><input type="email" name="email" required /></div>
+
+        <div class="field full"><span class="label mandatory-label">Military Status</span><div class="choices">
+          <label class="choice"><input type="radio" name="military" value="Accomplished" required><span>Accomplished</span></label>
+          <label class="choice"><input type="radio" name="military" value="Postponed" required><span>Postponed</span></label>
+          <label class="choice"><input type="radio" name="military" value="Exempted" required><span>Exempted</span></label>
+          <label class="choice"><input type="radio" name="military" value="Not Applicable" required><span>Not Applicable</span></label>
+        </div></div>
+
+        <div class="field"><span class="label mandatory-label">Car Owner</span><div class="choices">
+          <label class="choice"><input type="radio" name="car_owner" value="Yes" required><span>Yes</span></label>
+          <label class="choice"><input type="radio" name="car_owner" value="No" required><span>No</span></label>
+        </div></div>
+
+        <div class="field full"><span class="label mandatory-label">Marital Status</span><div class="choices">
+          <label class="choice"><input type="radio" name="marital" value="Single" required><span>Single</span></label>
+          <label class="choice"><input type="radio" name="marital" value="Engaged" required><span>Engaged</span></label>
+          <label class="choice"><input type="radio" name="marital" value="Married" required><span>Married</span></label>
+          <label class="choice"><input type="radio" name="marital" value="Divorced" required><span>Divorced</span></label>
+          <label class="choice"><input type="radio" name="marital" value="Widowed" required><span>Widowed</span></label>
+        </div></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="accordion"><summary class="accordion-toggle"><span class="title-wrap"><span class="dot"></span>Education Record</span><span class="chev">⌄</span></summary><div class="accordion-body">
+      <div class="subcard"><div class="subcard-head"><h3>High School</h3></div><div class="grid">
+        <div class="field"><label>From</label><select name="hs_from" data-education-year><option value="">Select year</option></select></div>
+        <div class="field"><label>To</label><select name="hs_to" data-education-year><option value="">Select year</option></select></div>
+        <div class="field full"><label>High School</label><input name="high_school"></div>
+      </div></div>
+
+      <div class="subcard"><div class="subcard-head"><h3>University</h3></div><div class="grid">
+        <div class="field third"><label class="required">From</label><select name="uni_from" data-education-year required><option value="">Select year</option></select></div>
+        <div class="field third"><label class="required">To</label><select name="uni_to" data-education-year required><option value="">Select year</option></select></div>
+        <div class="field"><label class="required" for="facultyChoice">Faculty</label><input id="facultyChoice" name="faculty" list="facultyOptions" autocomplete="off" placeholder="Type to search or choose Other" data-listed-choice required><datalist id="facultyOptions"><option value="Agriculture"></option><option value="Agriculture and Natural Resources"></option><option value="Al-Alsun (Languages)"></option><option value="Applied Arts"></option><option value="Applied Health Sciences Technology"></option><option value="Archaeology"></option><option value="Architecture"></option><option value="Artificial Intelligence"></option><option value="Arts"></option><option value="Arts and Design"></option><option value="Biotechnology"></option><option value="Business Administration"></option><option value="Business and Economics"></option><option value="Commerce"></option><option value="Communication and Electronics Engineering"></option><option value="Communication and Mass Media"></option><option value="Computer and Information Sciences"></option><option value="Computer Engineering"></option><option value="Computers and Artificial Intelligence"></option><option value="Computers and Information"></option><option value="Dar Al-Ulum"></option><option value="Dentistry"></option><option value="Design and Creative Arts"></option><option value="Early Childhood Education"></option><option value="Economics and Political Science"></option><option value="Education"></option><option value="Educational Sciences"></option><option value="Energy and Environmental Engineering"></option><option value="Engineering"></option><option value="Engineering and Technology"></option><option value="Environmental Studies and Research"></option><option value="Fashion and Textile Design"></option><option value="Fine Arts"></option><option value="Fisheries and Aquaculture"></option><option value="Graduate African Studies"></option><option value="Graduate Education"></option><option value="Graduate Nanotechnology Studies"></option><option value="Graduate Statistical Research"></option><option value="Health Sciences"></option><option value="Home Economics"></option><option value="Humanities"></option><option value="International Business and Humanities"></option><option value="Islamic and Arabic Studies"></option><option value="Islamic Call (Daawa)"></option><option value="Islamic Studies"></option><option value="Languages and Translation"></option><option value="Law"></option><option value="Law and Sharia"></option><option value="Liberal Arts and Sciences"></option><option value="Logistics and International Transport"></option><option value="Management Sciences"></option><option value="Maritime Transport and Technology"></option><option value="Mass Communication"></option><option value="Mechanical Engineering"></option><option value="Mechatronics Engineering"></option><option value="Medicine"></option><option value="Music Education"></option><option value="Nursing"></option><option value="Oral and Dental Medicine"></option><option value="Petroleum and Mining Engineering"></option><option value="Pharmacy"></option><option value="Physical Education (Sports Sciences)"></option><option value="Physical Therapy"></option><option value="Politics, Economics and Business"></option><option value="Postgraduate Childhood Studies"></option><option value="Quranic Studies"></option><option value="Science"></option><option value="Science and Technology"></option><option value="Sharia and Law"></option><option value="Software Engineering"></option><option value="Specific Education"></option><option value="Technology of Health Sciences"></option><option value="Technology of Industry and Energy"></option><option value="Theology (Usul Al-Din)"></option><option value="Tourism and Hotel Management"></option><option value="Urban and Regional Planning"></option><option value="Veterinary Medicine"></option><option value="Women for Arts, Science and Education"></option><option value="Other"></option></datalist></div>
+        <div class="field conditional-field" id="faculty_other_wrap"><label for="faculty_other">Other Faculty — please specify</label><input id="faculty_other" name="faculty_other" disabled></div>
+          <div class="field"><label class="required" for="universityChoice">University</label><input id="universityChoice" name="university" list="universityOptions" autocomplete="off" placeholder="Type to search or choose Other" data-listed-choice required><datalist id="universityOptions"><option value="6 October Technological University"></option><option value="6 October University"></option><option value="Ahram Canadian University"></option><option value="Ain Shams National University"></option><option value="Ain Shams University"></option><option value="Al Hayah University"></option><option value="Al Ryada University for Science and Technology"></option><option value="Al Salam University"></option><option value="Al-Azhar University"></option><option value="Alamein International University"></option><option value="Alexandria National University"></option><option value="Alexandria University"></option><option value="American University in Cairo (AUC)"></option><option value="Arab Academy for Banking and Financial Sciences"></option><option value="Arab Academy for Science, Technology and Maritime Transport (AASTMT)"></option><option value="Arab Open University – Egypt"></option><option value="Arish University"></option><option value="Assiut International Technological University"></option><option value="Assiut National University"></option><option value="Assiut University"></option><option value="Aswan University"></option><option value="Badr University in Assiut"></option><option value="Badr University in Cairo"></option><option value="Badya University"></option><option value="Benha National University"></option><option value="Benha University"></option><option value="Beni Suef National University"></option><option value="Beni Suef Technological University"></option><option value="Beni Suef University"></option><option value="Borg El Arab Technological University"></option><option value="British University in Egypt (BUE)"></option><option value="Cairo National University"></option><option value="Cairo University"></option><option value="Capital (formerly Helwan) University"></option><option value="City University of Cairo"></option><option value="Coventry University – Egypt Branch"></option><option value="Damanhour National University"></option><option value="Damanhour University"></option><option value="Damietta National University"></option><option value="Damietta University"></option><option value="Delta Technological University"></option><option value="Delta University for Science and Technology"></option><option value="Deraya University"></option><option value="East Port Said National University"></option><option value="East Port Said Technological University"></option><option value="Egypt University of Informatics (EUI)"></option><option value="Egypt-Japan University of Science and Technology (E-JUST)"></option><option value="Egyptian Academy of Arts"></option><option value="Egyptian Chinese University"></option><option value="Egyptian E-Learning University (EELU)"></option><option value="Egyptian Russian University"></option><option value="Egyptian University in Alamein"></option><option value="El Sewedy University of Technology"></option><option value="ESLSCA University Egypt"></option><option value="Fayoum International Technological University"></option><option value="Fayoum National University"></option><option value="Fayoum University"></option><option value="French University in Egypt"></option><option value="Future University in Egypt (FUE)"></option><option value="Galala University"></option><option value="German International University (GIU)"></option><option value="German University in Cairo (GUC)"></option><option value="Heliopolis University"></option><option value="Helwan National University"></option><option value="Higher Technology Institute"></option><option value="Horus University"></option><option value="Hurghada University"></option><option value="Innovation University"></option><option value="International University for Science, Arts and Technology"></option><option value="Kafr El Sheikh National University"></option><option value="Kafr El Sheikh University"></option><option value="Kazan Federal University – Egypt Branch"></option><option value="King Salman International University"></option><option value="Lotus University"></option><option value="Luxor National University"></option><option value="Luxor University"></option><option value="Mansoura National University"></option><option value="Mansoura University"></option><option value="Matrouh University"></option><option value="May University"></option><option value="Memphis University"></option><option value="Menoufia National University"></option><option value="Menoufia University"></option><option value="Merit University"></option><option value="Minia National University"></option><option value="Minia University"></option><option value="Misr Al Gadida University"></option><option value="Misr International Technological University"></option><option value="Misr International University (MIU)"></option><option value="Misr University for Science and Technology (MUST)"></option><option value="Modern University for Technology and Information (MTI)"></option><option value="Nahda University in Beni Suef"></option><option value="New Assiut Technological University"></option><option value="New Cairo Technological University"></option><option value="New Giza University"></option><option value="New Ismailia National University"></option><option value="New Mansoura University"></option><option value="New Salhia University"></option><option value="New Thebes Technological University"></option><option value="New Valley University"></option><option value="Nile University"></option><option value="Nile Valley University"></option><option value="NOVA University Lisbon – Egypt Branch"></option><option value="Obour University for Science and Technology"></option><option value="October University for Modern Sciences and Arts (MSA)"></option><option value="Pharos University in Alexandria"></option><option value="Port Said University"></option><option value="Qena (formerly South Valley) University"></option><option value="Rashid University"></option><option value="Sadat Academy for Management Sciences"></option><option value="Sadat City National University"></option><option value="Saint Petersburg State University – Egypt Branch"></option><option value="Samannoud Technological University"></option><option value="Saxony Egypt University for Applied Sciences and Technology"></option><option value="Senghor University"></option><option value="Sinai University"></option><option value="Sohag National University"></option><option value="Sohag University"></option><option value="South Valley National University"></option><option value="Sphinx University"></option><option value="Suez Canal University"></option><option value="Suez National University"></option><option value="Suez University"></option><option value="Tanta National University"></option><option value="Tanta University"></option><option value="Technische Universität Berlin – El Gouna Campus"></option><option value="University of East Capital"></option><option value="University of East London – Egypt Branch"></option><option value="University of Hertfordshire – Egypt Branch"></option><option value="University of Lancashire – Egypt Branch"></option><option value="University of London – Egypt Branch"></option><option value="University of Prince Edward Island – Egypt Branch"></option><option value="University of Sadat City"></option><option value="University of Science and Technology at Zewail City"></option><option value="Zagazig National University"></option><option value="Zagazig University"></option><option value="Zewail City of Science, Technology and Innovation"></option><option value="Other"></option></datalist></div>
+        <div class="field conditional-field" id="university_other_wrap"><label for="university_other">Other University — please specify</label><input id="university_other" name="university_other" disabled></div>
+      </div></div>
+
+      <div class="subcard"><div class="subcard-head"><h3>Postgraduate Studies (if any)</h3></div><div class="grid">
+        <div class="field third"><label>From</label><select name="pg_from" data-education-year><option value="">Select year</option></select></div>
+        <div class="field third"><label>To</label><select name="pg_to" data-education-year><option value="">Select year</option></select></div>
+        <div class="field third"><label>Grade</label><input name="pg_grade"></div>
+        <div class="field full"><label>Postgraduate Studies</label><input name="pg_program"></div>
+      </div></div>
+</div>
+  </details>
+
+  <details class="accordion"><summary class="accordion-toggle"><span class="title-wrap"><span class="dot"></span>Employment History</span><span class="chev">⌄</span></summary><div class="accordion-body">
+      <p class="subtle" style="margin-top:0">Please provide your most recent employment history. Two blocks are shown by default; you may add one more.</p>
+      <div id="employmentContainer"></div>
+      <button id="addEmployment" class="add-btn" type="button">+ Add one more employment</button>
+
+      <div class="subcard">
+        <div class="subcard-head"><h3>Availability & Compensation</h3></div>
+        <div class="grid">
+          <div class="field"><label class="required">Notice Period</label><input type="text" name="notice_period" placeholder="e.g. Immediate, 2 weeks, 1 month" required></div>
+          <div class="field"><label class="required">Expected Salary</label><input type="text" inputmode="numeric" data-salary pattern="[0-9]+(,[0-9]{3})*" name="expected_salary" placeholder="e.g. 10,000" required></div>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <details class="accordion"><summary class="accordion-toggle"><span class="title-wrap"><span class="dot"></span>Business References & Previous Intercom History</span><span class="chev">⌄</span></summary><div class="accordion-body">
+      <p class="subtle" style="margin-top:0">Both references and the Yes/No questions are mandatory. Follow-up details are required only when Yes is selected.</p>
+      <div class="table-like">
+        <div class="ref-row"><div class="ref-field"><label class="required" for="ref1_name">Name</label><input id="ref1_name" name="ref1_name" placeholder="Name" required></div><div class="ref-field"><label class="required" for="ref1_company">Company</label><input id="ref1_company" name="ref1_company" placeholder="Company" required></div><div class="ref-field"><label class="required" for="ref1_title">Title</label><input id="ref1_title" name="ref1_title" placeholder="Title" required></div><div class="ref-field"><label class="required" for="ref1_mobile">Mobile</label><input id="ref1_mobile" name="ref1_mobile" type="tel" placeholder="Mobile" required></div></div>
+        <div class="ref-row"><div class="ref-field"><label class="required" for="ref2_name">Name</label><input id="ref2_name" name="ref2_name" placeholder="Name" required></div><div class="ref-field"><label class="required" for="ref2_company">Company</label><input id="ref2_company" name="ref2_company" placeholder="Company" required></div><div class="ref-field"><label class="required" for="ref2_title">Title</label><input id="ref2_title" name="ref2_title" placeholder="Title" required></div><div class="ref-field"><label class="required" for="ref2_mobile">Mobile</label><input id="ref2_mobile" name="ref2_mobile" type="tel" placeholder="Mobile" required></div></div>
+      </div>
+
+      <div class="subcard">
+        <div class="grid">
+          <div class="field full"><span class="label mandatory-label">Do you have any friends, relatives, or acquaintances working for Intercom?</span><div class="choices">
+            <label class="choice"><input type="radio" name="intercom_relation" value="Yes" required><span>Yes</span></label>
+            <label class="choice"><input type="radio" name="intercom_relation" value="No" required><span>No</span></label>
+          </div></div>
+          <div class="field full conditional-field" id="intercom_relation_details_wrap"><label>If yes, please state name and relationship</label><input name="intercom_relation_details"></div>
+
+          <div class="field full"><span class="label mandatory-label">Have you been interviewed before at Intercom Enterprises?</span><div class="choices">
+            <label class="choice"><input type="radio" name="interviewed_before" value="Yes" required><span>Yes</span></label>
+            <label class="choice"><input type="radio" name="interviewed_before" value="No" required><span>No</span></label>
+          </div></div>
+          <div class="field conditional-field" id="previous_interview_date_wrap"><label>If yes, Interview Date</label><input type="date" name="previous_interview_date"></div>
+          <div class="field conditional-field" id="previous_interview_position_wrap"><label>Position</label><input name="previous_interview_position"></div>
+
+          <div class="field full"><span class="label mandatory-label">Have you worked before at Intercom Enterprises?</span><div class="choices">
+            <label class="choice"><input type="radio" name="worked_before" value="Yes" required><span>Yes</span></label>
+            <label class="choice"><input type="radio" name="worked_before" value="No" required><span>No</span></label>
+          </div></div>
+          <div class="field conditional-field" id="previous_employment_dates_wrap"><label>If yes, Employment Dates</label><input name="previous_employment_dates" placeholder="e.g. Jan 2024 - Aug 2025"></div>
+          <div class="field conditional-field" id="previous_employment_position_wrap"><label>Position</label><input name="previous_employment_position"></div>
+        </div>
+      </div>
+
+      <div class="declaration">
+        <label><input type="checkbox" name="declaration_confirmed" required>
+          <span class="label required">I hereby certify that all the information given in this application form is true and correct and I understand that any false or misleading answers may later result in withdrawing a job offer or terminating my employment.</span>
+        </label>
+      </div>
+      <div class="grid" style="margin-top:16px">
+        <div class="field"><label class="required">Name</label><input name="declaration_name" required></div>
+        <div class="field"><label class="required">Signature</label><input name="signature" placeholder="Type full name as signature" required></div>
+      </div>
+    </div>
+  </details>
+
+  <div class="actions">
+    <button class="secondary" type="reset">Clear Form</button>
+    <button class="primary" type="submit">Submit</button>
+  </div>
+  <div id="status" class="status" role="status" aria-live="polite"></div>
+</form>
+</div>
+<dialog id="submissionDialog" class="submission-dialog" aria-label="Application submission" aria-describedby="submissionProgress submissionSuccess">
+  <div id="submissionProgress" role="status" aria-live="polite">
+    <div class="submission-spinner" aria-hidden="true"></div>
+    <p>Submitting...</p>
+    <p class="subtle">Please keep this page open while your application is sent.</p>
+  </div>
+  <div id="submissionSuccess" class="success-copy" role="status" aria-live="polite" hidden>
+    <p>Thank you for applying to Intercom!</p>
+    <p>Your application has been submitted successfully. We wish you the very best with your interview!</p>
+    <p>Intercom Enterprises · Talent Acquisition Team</p>
+  </div>
+  <button id="closeSubmissionDialog" class="primary" type="button" hidden>Close</button>
+</dialog>
+
+<script>
+const GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwYf4GtvMY9uEsepZtKHlQMHMUESLPPuM_dFc0kgt6aAOKclUIUissOhi66e3LkF75jEg/exec";
+
+const form = document.getElementById("applicationForm");
+const employmentContainer = document.getElementById("employmentContainer");
+const addEmploymentBtn = document.getElementById("addEmployment");
+const statusBox = document.getElementById("status");
+const submissionDialog = document.getElementById("submissionDialog");
+const submissionProgress = document.getElementById("submissionProgress");
+const submissionSuccess = document.getElementById("submissionSuccess");
+const closeSubmissionDialog = document.getElementById("closeSubmissionDialog");
+
+// Education records collect a year, without a month or day.
+form.querySelectorAll('[data-education-year]').forEach(select => {
+  const latestYear = new Date().getFullYear() + 10;
+  for (let year = latestYear; year >= 1900; year--) {
+    const option = document.createElement('option');
+    option.value = String(year);
+    option.textContent = String(year);
+    select.appendChild(option);
+  }
+});
+
+let submissionInProgress = false;
+submissionDialog.addEventListener('cancel', event => {
+  if (submissionInProgress) event.preventDefault();
+});
+closeSubmissionDialog.addEventListener('click', () => submissionDialog.close());
+
+
+function refreshOtherChoices() {
+  ['source', 'faculty', 'university'].forEach(name => {
+    const choice = document.getElementById(name + 'Choice');
+    const wrapper = document.getElementById(name + '_other_wrap');
+    const other = document.getElementById(name + '_other');
+    const isOther = choice.value.trim().toLowerCase() === 'other';
+    wrapper.classList.toggle('show', isOther);
+    wrapper.querySelector('label').classList.toggle('mandatory-label', isOther);
+    other.disabled = !isOther;
+    other.required = isOther;
+    if (!isOther) { other.value = ''; other.setCustomValidity(''); }
+    if (choice.matches('[data-listed-choice]')) {
+      const options = [...document.getElementById(name + 'Options').options];
+      const match = options.find(option => option.value.toLowerCase() === choice.value.trim().toLowerCase());
+      choice.setCustomValidity(choice.value === '' || match ? '' : 'Choose an item from the list, or choose Other to enter your own.');
+    }
+  });
+}
+['source', 'faculty', 'university'].forEach(name => {
+  const choice = document.getElementById(name + 'Choice');
+  choice.addEventListener('input', refreshOtherChoices);
+  choice.addEventListener('change', refreshOtherChoices);
+  document.getElementById(name + '_other').addEventListener('input', event => {
+    const input = event.target;
+    input.setCustomValidity(input.required && !input.value.trim() ? 'Please specify your answer.' : '');
+  });
+});
+refreshOtherChoices();
+form.addEventListener('reset', () => setTimeout(refreshOtherChoices, 0));
+
+function toggleConditionalFields(groupName, fields) {
+  const selected = form.querySelector(`input[name="${groupName}"]:checked`);
+  const isYes = !!selected && selected.value === "Yes";
+
+  fields.forEach(({ name, wrapperId }) => {
+    const field = form.querySelector(`[name="${name}"]`);
+    const wrapper = document.getElementById(wrapperId);
+
+    if (wrapper) {
+      wrapper.classList.toggle("show", isYes);
+    }
+
+    if (field) {
+      field.required = isYes;
+
+      if (!isYes) {
+        field.value = "";
+        field.setCustomValidity("");
+      }
+
+      const label = wrapper ? wrapper.querySelector("label") : null;
+      if (label) {
+        label.classList.toggle("mandatory-label", isYes);
+      }
+    }
+  });
+}
+
+function refreshConditionalQuestions() {
+  toggleConditionalFields("intercom_relation", [
+    { name: "intercom_relation_details", wrapperId: "intercom_relation_details_wrap" }
+  ]);
+
+  toggleConditionalFields("interviewed_before", [
+    { name: "previous_interview_date", wrapperId: "previous_interview_date_wrap" },
+    { name: "previous_interview_position", wrapperId: "previous_interview_position_wrap" }
+  ]);
+
+  toggleConditionalFields("worked_before", [
+    { name: "previous_employment_dates", wrapperId: "previous_employment_dates_wrap" },
+    { name: "previous_employment_position", wrapperId: "previous_employment_position_wrap" }
+  ]);
+}
+
+["intercom_relation", "interviewed_before", "worked_before"].forEach(groupName => {
+  form.querySelectorAll(`input[name="${groupName}"]`).forEach(radio => {
+    radio.addEventListener("change", refreshConditionalQuestions);
+  });
+});
+
+refreshConditionalQuestions();
+form.addEventListener("reset", () => {
+  setTimeout(() => {
+    refreshConditionalQuestions();
+    employmentContainer.querySelectorAll('.current-employer input').forEach(checkbox => {
+      delete checkbox.closest('.employment-block').querySelector('[data-employment-end]').dataset.previousDate;
+      updateCurrentEmployer(checkbox);
+    });
+    form.querySelectorAll('[data-salary]').forEach(input => input.setCustomValidity(''));
+  }, 0);
+});
+
+function updateCurrentEmployer(checkbox) {
+  const end = checkbox.closest('.employment-block').querySelector('[data-employment-end]');
+  if (checkbox.checked) {
+    if (end.type === 'month') end.dataset.previousDate = end.value;
+    end.type = 'text';
+    end.value = 'Current';
+    end.readOnly = true;
+  } else {
+    const previousDate = end.dataset.previousDate || '';
+    end.readOnly = false;
+    end.type = 'month';
+    end.value = previousDate;
+    delete end.dataset.previousDate;
+  }
+}
+
+employmentContainer.addEventListener('change', event => {
+  if (event.target.matches('.current-employer input')) updateCurrentEmployer(event.target);
+});
+
+function formatSalary(input) {
+  const raw = input.value.replaceAll(',', '');
+  input.setCustomValidity(raw === '' || /^\d+$/.test(raw) ? '' : 'Enter a whole salary amount of 0 or more.');
+  if (!/^\d+$/.test(raw)) return;
+  const caret = input.selectionStart;
+  const digitsBefore = input.value.slice(0, caret).replaceAll(',', '').length;
+  input.value = raw.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  let position = 0, digits = 0;
+  while (position < input.value.length && digits < digitsBefore) {
+    if (input.value[position] !== ',') digits++;
+    position++;
+  }
+  input.setSelectionRange(position, position);
+}
+
+form.addEventListener('input', event => {
+  if (event.target.matches('[data-salary]')) formatSalary(event.target);
+});
+
+function employmentBlock(index, removable=false) {
+  const requiredAttr = index === 1 ? " required" : "";
+  const labelClass = index === 1 ? ' class="mandatory-label"' : "";
+  return `
+    <div class="subcard employment-block" data-index="${index}">
+      <div class="subcard-head">
+        <h3>Employment ${index}</h3>
+        ${removable
+          ? '<button type="button" class="remove-btn">Remove</button>'
+          : '<span class="subtle">' + (index === 1 ? 'Mandatory' : 'Optional') + '</span>'}
+      </div>
+      <div class="grid">
+        <div class="field"><label${labelClass}>Company Name</label><input name="job${index}_company"${requiredAttr}></div>
+        <div class="field"><label${labelClass}>Manager's Title</label><input name="job${index}_manager_title"${requiredAttr}></div>
+        <div class="field"><label${labelClass}>Job Title</label><input name="job${index}_title"${requiredAttr}></div>
+        <div class="field"><label${labelClass}>Current Salary in EGP</label><input type="text" inputmode="numeric" data-salary pattern="[0-9]+(,[0-9]{3})*" name="job${index}_ending_salary" placeholder="e.g. 10,000"${requiredAttr}></div>
+        <div class="field"><label${labelClass}>Start Date</label><input type="month" name="job${index}_start"${requiredAttr}></div>
+        <div class="field"><label${labelClass}>End Date</label><input type="month" data-employment-end name="job${index}_end"${requiredAttr}></div>
+        <div class="field full"><label class="current-employer"><input type="checkbox" name="job${index}_current_employer" value="Yes"><span>Current employer</span></label></div>
+        <div class="field full"><label${labelClass}>Reason for Leaving</label><textarea name="job${index}_reason" placeholder="Briefly explain your reason for leaving"${requiredAttr}></textarea></div>
+      </div>
+    </div>`;
+}
+
+function renderEmployment() {
+  employmentContainer.innerHTML = employmentBlock(1) + employmentBlock(2);
+}
+renderEmployment();
+
+addEmploymentBtn.addEventListener("click", () => {
+  if (employmentContainer.querySelector('[data-index="3"]')) return;
+
+  employmentContainer.insertAdjacentHTML("beforeend", employmentBlock(3, true));
+  addEmploymentBtn.style.display = "none";
+
+  const removeBtn = employmentContainer.querySelector('[data-index="3"] .remove-btn');
+  if (removeBtn) {
+    removeBtn.addEventListener("click", () => {
+      const thirdBlock = employmentContainer.querySelector('[data-index="3"]');
+      if (thirdBlock) thirdBlock.remove();
+      addEmploymentBtn.style.display = "";
+    });
+  }
+});
+
+(() => {
+  const dateInput = document.getElementById("date");
+  if (dateInput) {
+    const d = new Date();
+    dateInput.value = new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,10);
+  }
+})();
+
+function collectFormData() {
+  const fd = new FormData(form);
+  const data = {};
+  for (const [k,v] of fd.entries()) data[k] = v;
+  form.querySelectorAll('[data-salary]').forEach(input => {
+    data[input.name] = input.value.replaceAll(',', '');
+  });
+  ['source', 'faculty', 'university'].forEach(name => {
+    const other = document.getElementById(name + '_other');
+    if (other.required) data[name] = other.value.trim();
+  });
+  data.submitted_at = new Date().toISOString();
+  data.form_title = "Intercom Enterprises Job Application Form";
+  return data;
+}
+
+function downloadWordFallback(data) {
+  const esc = s => String(s ?? "").replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const rows = Object.entries(data).filter(([k,v]) => v !== "").map(([k,v]) =>
+    `<tr><td style="padding:6px;border:1px solid #ddd;font-weight:bold">${esc(k.replaceAll('_',' '))}</td><td style="padding:6px;border:1px solid #ddd">${esc(v)}</td></tr>`
+  ).join("");
+  const doc = `<html><head><meta charset="utf-8"></head><body><h1>Intercom Enterprises Job Application</h1><table style="border-collapse:collapse;width:100%">${rows}</table></body></html>`;
+  const blob = new Blob([doc], {type:"application/msword"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `Intercom_Application_${(data.full_name||"Candidate").replace(/[^a-z0-9]+/gi,"_")}.doc`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+
+function validateMandatorySections() {
+  const names = [
+    "notice_period","expected_salary",
+    "ref1_name","ref1_company","ref1_title","ref1_mobile",
+    "ref2_name","ref2_company","ref2_title","ref2_mobile",
+    "declaration_confirmed","declaration_name","signature"
+  ];
+
+  for (const name of names) {
+    const el = form.querySelector(`[name="${name}"]`);
+    if (!el) continue;
+
+    if ((el.type === "checkbox" && !el.checked) || (el.type !== "checkbox" && !String(el.value || "").trim())) {
+      el.setCustomValidity("This field is required.");
+      el.reportValidity();
+      el.setCustomValidity("");
+      const parentDetails = el.closest("details");
+      if (parentDetails) parentDetails.open = true;
+      el.focus();
+      return false;
+    }
+  }
+
+  for (const group of ["intercom_relation","interviewed_before","worked_before"]) {
+    const checked = form.querySelector(`input[name="${group}"]:checked`);
+    if (!checked) {
+      const first = form.querySelector(`input[name="${group}"]`);
+      if (first) {
+        const parentDetails = first.closest("details");
+        if (parentDetails) parentDetails.open = true;
+        first.setCustomValidity("Please select an option.");
+        first.reportValidity();
+        first.setCustomValidity("");
+        first.focus();
+      }
+      return false;
+    }
+  }
+
+  return true;
+}
+
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (submissionInProgress) return;
+
+  document.querySelectorAll("details.accordion").forEach(x => x.open = true);
+
+  refreshConditionalQuestions();
+  refreshOtherChoices();
+  ['source', 'faculty', 'university'].forEach(name => {
+    const other = document.getElementById(name + '_other');
+    other.setCustomValidity(other.required && !other.value.trim() ? 'Please specify your answer.' : '');
+  });
+
+  if (typeof validateMandatorySections === "function" && !validateMandatorySections()) {
+    return;
+  }
+
+  if (!form.reportValidity()) {
+    return;
+  }
+
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const originalText = submitBtn ? submitBtn.textContent : "Submit";
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting...";
+  }
+
+  submissionInProgress = true;
+  statusBox.className = "status";
+  statusBox.textContent = "";
+  submissionProgress.hidden = false;
+  submissionDialog.classList.remove('is-success');
+  submissionSuccess.hidden = true;
+  closeSubmissionDialog.hidden = true;
+  submissionDialog.showModal();
+
+  const data = collectFormData();
+
+  try {
+    // Let the browser paint the progress dialog before starting the request.
+    await new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve, 0)));
+    if (!GOOGLE_APPS_SCRIPT_URL.startsWith("https://script.google.com/")) {
+      throw new Error("Google Apps Script URL is not configured.");
+    }
+
+    await fetch(GOOGLE_APPS_SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify(data)
+    });
+
+    submissionProgress.hidden = true;
+    submissionDialog.classList.add('is-success');
+    submissionSuccess.hidden = false;
+    closeSubmissionDialog.hidden = false;
+    closeSubmissionDialog.focus();
+
+    form.reset();
+    refreshConditionalQuestions();
+    renderEmployment();
+    addEmploymentBtn.style.display = "";
+
+    const d = new Date();
+    const dateInput = document.getElementById("date");
+    if (dateInput) {
+      dateInput.value = new Date(d.getTime() - d.getTimezoneOffset()*60000)
+        .toISOString()
+        .slice(0,10);
+    }
+
+  } catch (err) {
+    submissionDialog.close();
+    statusBox.className = "status show warn";
+    statusBox.textContent = "We could not submit your application. Please try again.";
+    console.error(err);
+  } finally {
+    submissionInProgress = false;
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+    }
+  }
+});
+</script>
+</body>
+</html>
